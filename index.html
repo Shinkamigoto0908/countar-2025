@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作る個数カウンター</title>
+    <style>
+        @font-face {
+            font-family: 'NHHandwriting';
+            src: url('NHHandwriting-Medium.otf') format('opentype');
+            font-weight: normal;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #ffecd2, #fcb69f);
+            margin: 0;
+            font-family: 'NHHandwriting', sans-serif;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #ff6f61;
+        }
+
+        .input-field {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .input-field label {
+            margin-right: 10px;
+            color: #ff6f61;
+        }
+
+        .input-field input {
+            font-size: 1.2em;
+            padding: 5px;
+            border-radius: 10px;
+            border: 1px solid #ff6f61;
+            width: 100px;
+            text-align: center;
+            background-color: #fff3e0;
+        }
+
+        .counter {
+            font-size: 2em;
+            margin: 20px;
+            padding: 10px;
+            background-color: #fff3e0;
+            display: inline-block;
+            width: 200px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid #ff6f61;
+            border-radius: 10px;
+        }
+
+        .btn {
+            font-size: 1.2em;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            background-color: #ff6f61;
+            color: white;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+            width: 50px;
+            height: 50px;
+        }
+
+        .btn:hover {
+            background-color: #ff3f35;
+        }
+
+        .remaining {
+            color: #e3342f;
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">作る個数</div>
+        <div class="input-field">
+            <label for="total">総計:</label>
+            <input type="number" id="total" value="10" oninput="updateRemaining()">
+        </div>
+        <div class="counter" id="counter" contenteditable="true" oninput="validateCounter()">0</div>
+        <br>
+        <button class="btn" onclick="decrement()">－</button>
+        <button class="btn" onclick="increment()">＋</button>
+        <div class="remaining" id="remaining">残り0個</div>
+    </div>
+
+    <script>
+        let count = 0;
+
+        function updateRemaining() {
+            const total = parseInt(document.getElementById('total').value) || 0;
+            const remaining = total - count;
+            document.getElementById('remaining').innerText = `残り${remaining}個`;
+        }
+
+        function increment() {
+            count++;
+            updateCounter();
+            updateRemaining();
+        }
+
+        function decrement() {
+            if(count > 0) {
+                count--;
+                updateCounter();
+                updateRemaining();
+            }
+        }
+
+        function updateCounter() {
+            document.getElementById('counter').innerText = count;
+        }
+
+        function validateCounter() {
+            const input = document.getElementById('counter').innerText;
+            const parsed = parseInt(input);
+            if (!isNaN(parsed)) {
+                count = parsed;
+                updateRemaining();
+            }
+        }
+
+        updateRemaining();
+    </script>
+</body>
+</html>
